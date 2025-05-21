@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>First Aid Management System</title>
+    <link rel="stylesheet" href="style1.css" />
+</head>
+<body>
+    <div class="background-image"></div>
+    <div class="container">
+        <h1>First Aid Management System</h1>
+        <p>Select your symptoms to see the recommended precautions:</p>
+        <form id="symptomForm">
+            <div class="symptom">
+                <input type="checkbox" id="symptom1" name="symptoms" value="bleeding" />
+                <label for="symptom1">Bleeding</label>
+            </div>
+            <div class="symptom">
+                <input type="checkbox" id="symptom2" name="symptoms" value="burn" />
+                <label for="symptom2">Burn</label>
+            </div>
+            <div class="symptom">
+                <input type="checkbox" id="symptom3" name="symptoms" value="fracture" />
+                <label for="symptom3">Fracture</label>
+            </div>
+            <div class="symptom">
+                <input type="checkbox" id="symptom4" name="symptoms" value="choking" />
+                <label for="symptom4">Choking</label>
+            </div>
+            <div class="symptom">
+                <input type="checkbox" id="symptom5" name="symptoms" value="poisoning" />
+                <label for="symptom5">Poisoning</label>
+            </div>
+            <div class="symptom">
+                <input type="checkbox" id="symptom6" name="symptoms" value="concussion" />
+                <label for="symptom6">Concussion (Head Injury)</label>
+            </div>
+            <div class="symptom">
+                <input type="checkbox" id="symptom7" name="symptoms" value="heart_attack" />
+                <label for="symptom7">Heart Attack</label>
+            </div>
+            <div class="symptom">
+                <input type="checkbox" id="symptom8" name="symptoms" value="allergic_reaction" />
+                <label for="symptom8">Allergic Reaction / Anaphylaxis</label>
+            </div>
+            <div class="symptom">
+                <input type="checkbox" id="symptom9" name="symptoms" value="heat_stroke" />
+                <label for="symptom9">Heat Stroke</label>
+            </div>
+            <div class="symptom">
+                <input type="checkbox" id="symptom10" name="symptoms" value="hypothermia" />
+                <label for="symptom10">Hypothermia</label>
+            </div>
+            <button type="button" onclick="showPrecautions()">Show Precautions</button>
+        </form>
+        <div id="precautions" class="precautions"></div>
+    </div>
+
+    <script>
+        const precautionsData = {
+            bleeding: [
+                "Apply direct pressure to the wound with a clean cloth.",
+                "Elevate the injured area if possible.",
+                "Seek medical help if bleeding is severe or does not stop."
+            ],
+            burn: [
+                "Cool the burn under running cold water for at least 10 minutes.",
+                "Cover the burn with a sterile, non-fluffy dressing or cloth.",
+                "Do not apply creams or oils.",
+                "Seek medical attention for severe burns."
+            ],
+            fracture: [
+                "Immobilize the injured area using a splint or sling.",
+                "Avoid moving the person unless necessary.",
+                "Apply ice packs to reduce swelling.",
+                "Seek immediate medical care."
+            ],
+            choking: [
+                "Encourage the person to cough to try to clear the airway.",
+                "Perform the Heimlich maneuver if the person cannot breathe.",
+                "Call emergency services if the obstruction is not cleared."
+            ],
+            poisoning: [
+                "Call emergency services immediately.",
+                "Do not induce vomiting unless instructed by a professional.",
+                "Try to identify the poison and keep the container for reference."
+            ],
+            concussion: [
+                "Keep the person still and lying down.",
+                "Apply a cold compress to reduce swelling.",
+                "Do not give food or drink.",
+                "Observe for vomiting, confusion, or unconsciousness — seek emergency help immediately.",
+                "Avoid moving the head/neck if spinal injury is suspected."
+            ],
+            heart_attack: [
+                "Call emergency services immediately.",
+                "Make the person sit and rest; loosen tight clothing.",
+                "Give aspirin if not allergic (chewable, 300 mg).",
+                "Reassure them and stay calm.",
+                "Start CPR if the person becomes unconscious and stops breathing."
+            ],
+            allergic_reaction: [
+                "Identify and remove the allergen if possible (e.g., bee sting).",
+                "Use an epinephrine auto-injector if available.",
+                "Lay the person flat and raise legs if they feel faint.",
+                "Monitor breathing and pulse.",
+                "Call emergency services even if symptoms improve."
+            ],
+            heat_stroke: [
+                "Move the person to a cool, shaded place.",
+                "Remove excess clothing.",
+                "Apply cool water to skin or use a fan.",
+                "Give small sips of cool water if conscious.",
+                "Seek emergency help immediately."
+            ],
+            hypothermia: [
+                "Move the person indoors or to a warm shelter.",
+                "Remove wet clothing and cover with warm blankets.",
+                "Warm the body gradually, especially core areas (chest, neck).",
+                "Offer warm liquids if conscious, but no alcohol or caffeine.",
+                "Avoid direct heat (e.g., hot water or heating pads)."
+            ]
+        };
+
+        function showPrecautions() {
+            const selectedSymptoms = Array.from(document.querySelectorAll('input[name="symptoms"]:checked')).map(el => el.value);
+            const precautionsDiv = document.getElementById("precautions");
+            precautionsDiv.innerHTML = "";
+
+            if (selectedSymptoms.length === 0) {
+                precautionsDiv.innerHTML = "<p>Please select at least one symptom.</p>";
+                return;
+            }
+
+            selectedSymptoms.forEach(symptom => {
+                const symptomPrecautions = precautionsData[symptom];
+                if (symptomPrecautions) {
+                    const section = document.createElement("section");
+                    section.classList.add("precaution-section");
+                    const title = document.createElement("h3");
+                    title.textContent = symptom.charAt(0).toUpperCase() + symptom.slice(1).replace(/_/g, " ") + " Precautions";
+                    section.appendChild(title);
+
+                    const ul = document.createElement("ul");
+                    symptomPrecautions.forEach(precaution => {
+                        const li = document.createElement("li");
+                        li.textContent = precaution;
+                        ul.appendChild(li);
+                    });
+                    section.appendChild(ul);
+                    precautionsDiv.appendChild(section);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
